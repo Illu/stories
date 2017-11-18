@@ -38,7 +38,7 @@ const CustomFlexCard = styled(Card)`
 
 const AppRedirection = () => (
   <Redirect to={{
-    pathname: '/explore',
+    pathname: '/stories/explore',
   }}/>
 )
 
@@ -47,8 +47,8 @@ const MainScreen = ({showModal, hideModal, modal, firebase}) => (
       <Navbar profileData={firebase.auth}/>
       <ContentWrapper>
         <Route exact path="/" component={AppRedirection}/>
-        <Route path="/explore" component={StoryList}/>
-        <Route path="/edit" component={CurrentStory}/>
+        <Route path="/stories/explore" component={StoryList}/>
+        <Route path="/stories/edit" component={CurrentStory}/>
        </ContentWrapper>
       <CreateStoryButton
         showModal={showModal}

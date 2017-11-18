@@ -133,7 +133,7 @@ class CurrentStory extends Component {
       return (
         <MainWrapper >
           <Background bg={backgroundColor}/>
-          <Link to='/explore' onClick={() => closeStory()}>
+          <Link to='/stories/explore' onClick={() => closeStory()}>
             <ScreenTitle title="Back to the list" icon="chevron-left" />
           </Link>
         <StoryWrapper>

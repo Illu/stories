@@ -35,7 +35,7 @@ const StoryCard = (props) => {
 
   return (
       <Wrapper bg={colors[story.color]} onClick={() => {
-          history.push('/edit');
+          history.push('/stories/edit');
           showStory(id);
         }}>
         <Title>

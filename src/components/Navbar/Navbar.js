@@ -84,7 +84,7 @@ class Navbar extends Component {
 
     return (
       <Wrapper>
-        <Link to='/explore'>
+        <Link to='/stories/explore'>
           <AppTitle>Stories</AppTitle>
         </Link>
         <UserWrapper onClick={() => this.updateMenuState()}>
