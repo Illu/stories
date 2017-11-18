@@ -1,5 +1,6 @@
 // Actions
 const SHOW_STORY = 'stories/story/SHOW_STORY';
+const CLOSE_STORY = 'stories/story/CLOSE_STORY'
 
 const initialState = {showStory: false, storyId: ''}
 
@@ -12,6 +13,12 @@ const reducer = (state = initialState, action = {}) => {
           showStory: true,
           storyId: action.payload,
         }
+    case CLOSE_STORY:
+      return {
+          ...state,
+          showStory: false,
+          storyId: '',
+        }
     default:
       return state;
   }
@@ -20,6 +27,9 @@ const reducer = (state = initialState, action = {}) => {
 // Action Creators
 export const showStory = (id) => {
   return { type: SHOW_STORY, payload: id };
+}
+export const closeStory = () => {
+  return { type: CLOSE_STORY };
 }
 
 export default reducer;

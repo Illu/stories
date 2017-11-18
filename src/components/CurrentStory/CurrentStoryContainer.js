@@ -1,5 +1,7 @@
 import { connect } from 'react-redux'
 import CurrentStory from './CurrentStory'
+import {closeStory} from '../../ducks/story'
+import {withRouter} from 'react-router-dom'
 
 const mapStateToProps = (state) => {
   return {
@@ -9,6 +11,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  closeStory: () => {
+      dispatch(closeStory())
+    },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CurrentStory)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CurrentStory))

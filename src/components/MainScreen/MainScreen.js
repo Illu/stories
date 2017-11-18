@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import Navbar from '../Navbar/Navbar'
-import ScreenTitle from '../ScreenTitle/ScreenTitle'
 import Card from '../Card/Card'
 import CreateStoryButton from '../CreateStoryButton/CreateStoryButton'
 import CreateStoryModal from '../CreateStoryModal'
@@ -15,43 +14,49 @@ import {
   isEmpty,
   dataToJS
 } from 'react-redux-firebase'
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect,
+} from 'react-router-dom'
+import {NAVBAR_HEIGHT} from '../constants'
+
+const MainWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`
 
 const ContentWrapper = styled.div`
-  width: 90%;
-  margin: 0 auto;
-`
-const CardWrapper = styled.div`
-  height: 100%;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  flex-wrap: nowrap;
+
+  flex: 1;
 `
 
+const CustomFlexCard = styled(Card)`
+  flex: ${props => props.flex};
+`
+
+const AppRedirection = () => (
+  <Redirect to={{
+    pathname: '/explore',
+  }}/>
+)
+
 const MainScreen = ({showModal, hideModal, modal, firebase}) => (
-    <div>
+    <MainWrapper>
       <Navbar profileData={firebase.auth}/>
       <ContentWrapper>
-        <ScreenTitle title="Your dashboard"/>
-        <CardWrapper>
-          <Card title="Explore Stories">
-            <StoryList />
-          </Card>
-          <Card title="Your Stories">
-            <h1>Comming soon!</h1>
-          </Card>
-          <Card title="Current Story">
-            <CurrentStory />
-          </Card>
-      </CardWrapper>
-      </ContentWrapper>
+        <Route exact path="/" component={AppRedirection}/>
+        <Route path="/explore" component={StoryList}/>
+        <Route path="/edit" component={CurrentStory}/>
+       </ContentWrapper>
       <CreateStoryButton
         showModal={showModal}
         hideModal={hideModal}
         modalState={modal.show}
       />
       {modal.show && <CreateStoryModal />}
-    </div>
+    </MainWrapper>
 )
 
 export default MainScreen

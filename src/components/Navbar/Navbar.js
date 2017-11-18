@@ -2,19 +2,20 @@ import React, {Component} from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import firebase from 'firebase'
-
-const NAVBAR_HEIGHT = 60;
+import { Link } from 'react-router-dom'
+import {NAVBAR_HEIGHT} from '../constants'
 
 const Wrapper = styled.div`
   width: 100%;
   height: ${NAVBAR_HEIGHT}px;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.7);
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
   box-shadow: 1px 1px 10px 0px #ddd;
-  position: relative;
+  position: fixed;
+  top: 0;
 `
 
 const AppTitle = styled.h1`
@@ -64,6 +65,7 @@ const MenuButton = styled.button`
   width: 100%;
   padding: 10px;
   font-weight: bold;
+  border: none;
 `
 
 class Navbar extends Component {
@@ -82,8 +84,9 @@ class Navbar extends Component {
 
     return (
       <Wrapper>
-        <div />
-        <AppTitle>Stories</AppTitle>
+        <Link to='/explore'>
+          <AppTitle>Stories</AppTitle>
+        </Link>
         <UserWrapper onClick={() => this.updateMenuState()}>
           <Avatar alt='Your avatar' src={profileData.photoURL}/>
           <UserGreetings>Hello, {profileData.displayName.split(' ')[0]}!</UserGreetings>
@@ -99,12 +102,14 @@ class Navbar extends Component {
 }
 
 Navbar.PropTypes = {
-  username: PropTypes.string,
-  avatarUrl: PropTypes.string,
+  profileData: PropTypes.object,
 }
 
 Navbar.defaultProps = {
-  username: 'Unknown',
+  profileData: {
+    photoURL: 'http://fuuse.net/wp-content/uploads/2016/02/avatar-placeholder.png',
+    displayName: 'You',
+  },
 }
 
 export default Navbar;

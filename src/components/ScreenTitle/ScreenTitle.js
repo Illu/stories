@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import { NAVBAR_HEIGHT } from '../constants'
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-  margin: 30px 0;
+  margin: 30px calc(5% + 5px);
   align-items: center;
+  margin-top: calc(${NAVBAR_HEIGHT}px + 30px);
 `
 
 const TitleText = styled.h3`
@@ -29,10 +31,10 @@ const Icon = styled.i`
   color: #fff;
 `
 
-const ScreenTitle = ({title}) => (
+const ScreenTitle = ({title, icon}) => (
   <Wrapper>
       <IconWrapper>
-        <Icon className="fa fa-bookmark"/>
+        <Icon className={`fa fa-${icon}`}/>
       </IconWrapper>
       <TitleText>{title}</TitleText>
   </Wrapper>

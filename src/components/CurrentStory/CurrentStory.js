@@ -1,18 +1,15 @@
 import React, {Component} from 'react'
-import styled from 'styled-components'
+import styled, {keyframes} from 'styled-components'
 import firebase from 'firebase'
+import ScreenTitle from '../ScreenTitle/ScreenTitle'
+import { Link } from 'react-router-dom'
+import { colors } from '../constants'
 
-const colors = {
-  red: 'rgb(249, 116, 119)',
-  blue: 'rgb(125, 143, 255)',
-  yellow: 'rgb(247, 182, 19)',
-}
-
-const Wrapper = styled.div`
+const StoryWrapper = styled.div`
   padding: 20px 20px;
-  border-radius: 4px;
-  background: ${props => props.bg};
-  margin: 10px 0;
+  border-radius: 8px;
+  background: #fff;
+  margin: 10px 5%;
   display: flex;
   flex-direction: column;
 `
@@ -24,15 +21,15 @@ const WordsWrapper = styled.div`
 `
 
 const Word = styled.p`
-  color: #fff;
+  color: black;
 `
 
 const WordInputWrapper = styled.div`
   display: flex;
   justify-content: center;
-  background: rgb(33, 206, 153);
-  border-radius: 4px;
+  border-radius: 100px;
   margin-top: 50px;
+  border: 1px solid ${props => props.bg}
 `
 
 const WordInput = styled.input`
@@ -40,26 +37,43 @@ const WordInput = styled.input`
   outline: none;
   background-color: transparent;
   border: none;
-  border-bottom: 1px solid #ddd;
-  color: #fff;
-  transition: .3s;
+  color: ${props => props.color};
   font-size: 17px;
 
   &::placeholder{
     color: #ddd;
   }
-
-  &:focus{
-    border-bottom: 1px solid #fff;
-  }
 `
 
 const SubmitButton = styled.button`
-  color: #fff;
+  color: ${props => props.color};
   background: none;
   border: none;
   outline: none;
   cursor: pointer;
+`
+
+const FadeAnim = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`
+const MainWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+`
+
+const Background = styled.div`
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: ${props => props.bg};
+  animation: ${FadeAnim} 1.5s ease;
+  z-index: -100;
 `
 
 const addWord = (storyId, word) => {
@@ -75,7 +89,12 @@ const addWord = (storyId, word) => {
     word,
   })
 
-  fetch("https://us-central1-stories-bfc08.cloudfunctions.net/app/addword", {method: 'POST', headers: myHeaders, body: myBody})
+  fetch("https://us-central1-stories-bfc08.cloudfunctions.net/app/addword",
+    {method: 'POST',
+     headers: myHeaders,
+      body: myBody
+    }
+  )
   .then((res) => res.text())
   .then((data) => console.log(data))
   .catch((err) => {
@@ -108,9 +127,16 @@ class CurrentStory extends Component {
       const words = stories[storyId].words;
       const {text} = this.state;
 
+      const backgroundColor = colors[stories[storyId].color]
 
+      const {closeStory} = this.props;
       return (
-        <Wrapper bg={colors[stories[storyId].color]}>
+        <MainWrapper >
+          <Background bg={backgroundColor}/>
+          <Link to='/explore' onClick={() => closeStory()}>
+            <ScreenTitle title="Back to the list" icon="chevron-left" />
+          </Link>
+        <StoryWrapper>
           <WordsWrapper>
             {Object.keys(words).map((wordId) => {
               return(
@@ -118,13 +144,16 @@ class CurrentStory extends Component {
               )
             })}
           </WordsWrapper>
-          <WordInputWrapper>
+          <WordInputWrapper bg={backgroundColor}>
             <WordInput
               type='text'
               placeholder="Write the next word..."
               onChange={evt => this.updateText(evt.target.value)}
-              value={text}/>
+              value={text}
+              color={backgroundColor}
+            />
             <SubmitButton
+              color={backgroundColor}
               onClick={() => {
                   this.updateText('')
                   text !== '' && addWord(storyId, text)
@@ -134,11 +163,12 @@ class CurrentStory extends Component {
                 <i className='fa fa-pencil fa-2x'/>
             </SubmitButton>
           </WordInputWrapper>
-        </Wrapper>
+        </StoryWrapper>
+      </MainWrapper>
       )
     } else {
       return (
-        <h1>{'<-- Select a story from the list'}</h1>
+        <h1>{"Sorry, you can't access a story from a link yet !"}</h1>
       )
     }
   }

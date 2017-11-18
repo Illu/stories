@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 const CardWrapper = styled.div`
   background: #fff;
-  width: 25%;
   border-radius: 4px;
   padding: 20px;
   box-shadow: 0px 0px 10px 0px #eee;
