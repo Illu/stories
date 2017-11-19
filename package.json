@@ -2,7 +2,7 @@
   "name": "stories",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://illu.github.io/stories",
+  "homepage": "https://illusion.surge.sh",
   "dependencies": {
     "firebase": "^4.6.2",
     "prop-types": "^15.6.0",
