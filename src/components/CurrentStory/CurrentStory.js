@@ -12,6 +12,7 @@ const StoryWrapper = styled.div`
   margin: 10px 5%;
   display: flex;
   flex-direction: column;
+  box-shadow: 0px 0px 10px 0px #eee;
 `
 
 const WordsWrapper = styled.div`
@@ -53,28 +54,11 @@ const SubmitButton = styled.button`
   cursor: pointer;
 `
 
-const FadeAnim = keyframes`
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-`
 const MainWrapper = styled.div`
   width: 100%;
   height: 100%;
 `
 
-const Background = styled.div`
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  background: ${props => props.bg};
-  animation: ${FadeAnim} 1.5s ease;
-  z-index: -100;
-`
 
 const addWord = (storyId, word) => {
 
@@ -132,7 +116,6 @@ class CurrentStory extends Component {
       const {closeStory} = this.props;
       return (
         <MainWrapper >
-          <Background bg={backgroundColor}/>
           <Link to='/stories/explore' onClick={() => closeStory()}>
             <ScreenTitle title="Back to the list" icon="chevron-left" />
           </Link>

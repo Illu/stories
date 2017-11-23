@@ -8,7 +8,7 @@ import {NAVBAR_HEIGHT} from '../constants'
 const Wrapper = styled.div`
   width: 100%;
   height: ${NAVBAR_HEIGHT}px;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 1);
   display: flex;
   justify-content: space-between;
   align-items: center;

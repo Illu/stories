@@ -48,7 +48,7 @@ const Icon = styled.i`
   width: 50px;
 `
 
-const sendCreation = (word) => {
+const sendCreation = (word, closeModal) => {
 
   firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
 
@@ -62,7 +62,7 @@ const sendCreation = (word) => {
 
   fetch("https://us-central1-stories-bfc08.cloudfunctions.net/app/startstory", {method: 'POST', headers: myHeaders, body: myBody})
   .then((res) => res.text())
-  .then((data) => console.log(data))
+  .then((data) => closeModal())
   .catch((err) => {
     console.log("error", err)
   })
@@ -86,6 +86,7 @@ class CreateStoryModal extends Component {
   render() {
 
     const {text} = this.state;
+    const {closeModal} = this.props;
 
     return (
     <Wrapper>
@@ -95,7 +96,7 @@ class CreateStoryModal extends Component {
         onChange={evt => this.updateText(evt.target.value)}
         value={text}
       />
-      <ValidateButton onClick={() => {text !== '' && sendCreation(text)}}>
+      <ValidateButton onClick={() => {text !== '' && sendCreation(text, closeModal)}}>
         <Icon className="fa fa-check" />
       </ValidateButton>
     </Wrapper>
