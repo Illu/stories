@@ -13,6 +13,7 @@ const StoryWrapper = styled.div`
   display: flex;
   flex-direction: column;
   box-shadow: 0px 0px 10px 0px #eee;
+  max-width: 500px;
 `
 
 const WordsWrapper = styled.div`
@@ -23,24 +24,26 @@ const WordsWrapper = styled.div`
 
 const Word = styled.p`
   color: black;
+  margin: 3px 2px;
 `
 
 const WordInputWrapper = styled.div`
   display: flex;
   justify-content: center;
   border-radius: 100px;
+  margin: 0 auto;
   margin-top: 50px;
-  border: 1px solid ${props => props.bg}
+  border: 1px solid ${props => props.bg};
+  max-width: 300px;
 `
 
 const WordInput = styled.input`
-  margin: 20px 0;
+  margin: 10px;
   outline: none;
   background-color: transparent;
   border: none;
   color: ${props => props.color};
   font-size: 17px;
-
   &::placeholder{
     color: #ddd;
   }
@@ -57,6 +60,13 @@ const SubmitButton = styled.button`
 const MainWrapper = styled.div`
   width: 100%;
   height: 100%;
+`
+
+const StoryTitle = styled.h1`
+  color: ${props => props.color};
+  font-size: 40px;
+  text-align: center;
+  margin: 20px;
 `
 
 
@@ -80,7 +90,7 @@ const addWord = (storyId, word) => {
     }
   )
   .then((res) => res.text())
-  .then((data) => console.log(data))
+  .then((data) => console.log("Hooray! you wrote a word!", data))
   .catch((err) => {
     console.log("error", err)
   })
@@ -98,7 +108,14 @@ class CurrentStory extends Component {
 
   updateText(text){
     text = text.replace(/\s/g, "");
-    this.setState({text})
+    this.setState({text});
+  }
+
+  checkEnterKey(e, text, storyId) {
+    if (e.key === 'Enter') {
+      text !== '' && addWord(storyId, text);
+      this.updateText('');
+    }
   }
 
   render(){
@@ -120,10 +137,11 @@ class CurrentStory extends Component {
             <ScreenTitle title="Back to the list" icon="chevron-left" />
           </Link>
         <StoryWrapper>
+          <StoryTitle color={backgroundColor}>Story Title</StoryTitle>
           <WordsWrapper>
             {Object.keys(words).map((wordId) => {
               return(
-                  <Word key={wordId}>{words[wordId].word}&nbsp;</Word>
+                  <Word key={wordId}>{words[wordId].word}</Word>
               )
             })}
           </WordsWrapper>
@@ -132,6 +150,7 @@ class CurrentStory extends Component {
               type='text'
               placeholder="Write the next word..."
               onChange={evt => this.updateText(evt.target.value)}
+              onKeyPress={e => this.checkEnterKey(e, text, storyId)}
               value={text}
               color={backgroundColor}
             />
@@ -151,7 +170,14 @@ class CurrentStory extends Component {
       )
     } else {
       return (
-        <h1>{"Sorry, you can't access a story from a link yet !"}</h1>
+        <MainWrapper>
+          <Link to='/stories/explore'>
+            <ScreenTitle title="Back to the list" icon="chevron-left" />
+          </Link>
+          <StoryWrapper>
+            <h1>{"Sorry, you can't access a story from a link yet !"}</h1>
+          </StoryWrapper>
+        </MainWrapper>
       )
     }
   }

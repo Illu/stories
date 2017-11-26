@@ -9,13 +9,19 @@ const Wrapper = styled.div`
   width: 100%;
   height: ${NAVBAR_HEIGHT}px;
   background: rgba(255, 255, 255, 1);
+  position: fixed;
+  box-shadow: 1px 1px 10px 0px #ddd;
+  top: 0;
+`
+
+const ContentWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
-  box-shadow: 1px 1px 10px 0px #ddd;
-  position: fixed;
-  top: 0;
+  height: 100%;
+  width: 90%;
+  margin: 0 5%;
 `
 
 const AppTitle = styled.h1`
@@ -46,8 +52,7 @@ const UserGreetings = styled.h2`
 `
 
 const Menu = styled.div`
-  width: 100px;
-  background: red;
+  width: 150px;
   position: absolute;
   top: ${NAVBAR_HEIGHT}px;
   margin: 10px;
@@ -66,6 +71,7 @@ const MenuButton = styled.button`
   padding: 10px;
   font-weight: bold;
   border: none;
+  margin: 0;
 `
 
 class Navbar extends Component {
@@ -84,6 +90,7 @@ class Navbar extends Component {
 
     return (
       <Wrapper>
+        <ContentWrapper>
         <Link to='/stories/explore'>
           <AppTitle>Stories</AppTitle>
         </Link>
@@ -91,11 +98,13 @@ class Navbar extends Component {
           <Avatar alt='Your avatar' src={profileData.photoURL}/>
           <UserGreetings>Hello, {profileData.displayName.split(' ')[0]}!</UserGreetings>
           {menuOpen && (
-            <Menu>
+            <Menu onMouseLeave={() => {this.updateMenuState()}}>
+              <MenuButton onClick={() => firebase.logout()}>Settings</MenuButton>
               <MenuButton onClick={() => firebase.logout()}>Log out</MenuButton>
             </Menu>
           )}
         </UserWrapper>
+      </ContentWrapper>
       </Wrapper>
     )
   }

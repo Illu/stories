@@ -11,7 +11,7 @@ const ListWrapper = styled.div`
   flex-wrap: wrap;
   justify-content: space-around;
   flex-grow: 1;
-  margin: ${NAVBAR_HEIGHT}px 5%;
+  margin: 0 calc(5% - 5px);
 `
 
 const StoryList = (props) => {

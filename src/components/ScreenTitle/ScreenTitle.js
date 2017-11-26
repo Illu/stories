@@ -5,7 +5,7 @@ import { NAVBAR_HEIGHT } from '../constants'
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-  margin: 30px calc(5% + 5px);
+  margin: 30px 5%;
   align-items: center;
   margin-top: calc(${NAVBAR_HEIGHT}px + 30px);
 `
